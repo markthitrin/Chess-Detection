@@ -1,0 +1,51 @@
+# run training model
+
+batch 16, 32
+epochs 20, 50, 100
+    python train.py --img 640 --batch 32 --epochs 50 --data data/Chess.yaml --weights yolov5s.pt
+
+ถ้ารันเสดจะไปอยู่ใน C:\Wasutha\03_Junior\DigImage\ChessDetectionV2\yolov5\runs\train
+
+# test model
+เอาไฟล์ best.pt มาไว้ yolov5 แล้วรัน
+ถ้าจะลองรูปเป็นโฟล์เดอร์
+
+
+ถ้าจะลอง วิดีโอ
+    weights ไฟล์ .pt ที่จะลอง --source ก็ที่อยู่วิดีโอ
+    python detect.py --weights chess-v1.pt  --source C:\Wasutha\03_Junior\DigImage\ChessDetectionV2\yolov5\test-video\2_move_student.mp4
+
+ถ้าจะลองอะไรพิเศษก็ดูใน detect.py
+
+
+data1 -> roboflow data v3 only
+    Preprocessing
+        Auto-Orient: Applied
+        Resize: Stretch to 640x640
+    Modify Classes: 12 remapped, 1 dropped (Show details)
+    Augmentations
+        Outputs per training example: 3
+        Crop: 0% Minimum Zoom, 5% Maximum Zoom
+        Rotation: Between -3° and +3°
+        Shear: ±3° Horizontal, ±3° Vertical
+        Grayscale: Apply to 20% of images
+        Exposure: Between -15% and +15%
+
+data2 -> roboflow v3, v4, v5
+    same Preprocessing and Augmentations as data1
+
+จดๆ
+                    training model
+   version | runs/train/ | data | {img, batch, epoch}
+1. v-test  | exp-9       |  1   |   640, 16, 20
+2. v-1     | exp-10      |  1   |   640, 32, 50
+3. v-2     | exp-11      |  1   |   640, 32, 100
+4. v-3     | exp-12      |  2   |   640, 32, 20
+4. v-4     | exp-13      |  2   |   640, 32, 50
+4. v-5     | exp-14      |  2   |   640, 32, 100
+
+        data test
+   runs/detect/ | model | data
+1. exp-5        |  v1   | clip: 2_move_student
+2. exp-7        |  v2   | clip: 2_move_student
+3. exp-8        |  v3   | clip: 2_move_student
